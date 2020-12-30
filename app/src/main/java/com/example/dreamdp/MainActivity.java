@@ -27,8 +27,22 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                int position = viewPager.getCurrentItem();
+                switch (position) {
+                    case 0:
+                        Snackbar.make(view, "Button clicked on Tab1", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                    case 1:
+                        Snackbar.make(view, "Button clicked on Tab2", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                    case 2:
+                        Snackbar.make(view, "Button clicked on Tab3", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                }
+
             }
         });
     }

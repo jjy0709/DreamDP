@@ -1,9 +1,11 @@
 package com.example.dreamdp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -24,6 +26,14 @@ public class GalleryFragment extends Fragment {
         GridView gridView = (GridView) v.findViewById(R.id.gallery);
         ImageAdapter adapter = new ImageAdapter(getContext());
         gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getContext(), FullImageActivity.class);
+                i.putExtra("id", position);
+                startActivity(i);
+            }
+        });
         return v;
     }
 }
