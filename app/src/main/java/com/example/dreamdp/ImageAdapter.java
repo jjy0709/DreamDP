@@ -43,7 +43,7 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView = new ImageView(mContext);
         imageView.setImageResource(mThumbIds[position]);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        //imageView.setLayoutParams(new ViewGroup.LayoutParams(70,70));
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(300,300));
         return imageView;
     }
 }

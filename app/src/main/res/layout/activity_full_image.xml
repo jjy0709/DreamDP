@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".FullImageActivity">
 
-    <ImageView
-        android:id="@+id/full_image_view"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/image_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
