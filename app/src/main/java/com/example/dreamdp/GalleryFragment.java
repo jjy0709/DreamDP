@@ -36,4 +36,8 @@ public class GalleryFragment extends Fragment {
         });
         return v;
     }
+
+    public int isContactFrag(){
+        return 0;
+    }
 }

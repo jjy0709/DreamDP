@@ -3,4 +3,5 @@
     <string name="tab_text_1">Contacts</string>
     <string name="tab_text_2">Gallery</string>
     <string name="tab_text_3">Free</string>
+    <string name="action_settings">Settings</string>
 </resources>

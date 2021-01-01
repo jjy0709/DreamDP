@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Revise_contact"
+        android:title="Revise"
+        />
+
+    <item
+        android:id="@+id/Delete_contact"
+        android:title="Delete"
+        />
+
+</menu>

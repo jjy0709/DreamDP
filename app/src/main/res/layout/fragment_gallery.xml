@@ -8,11 +8,12 @@
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="auto_fit"
-        android:columnWidth="90dp"
+        android:numColumns="2"
+        android:columnWidth="180dp"
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
+        android:minHeight="180dp"
         android:gravity="center"
-        android:stretchMode="columnWidth" />
+         />
 
 </RelativeLayout>

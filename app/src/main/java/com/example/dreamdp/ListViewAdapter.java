@@ -23,6 +23,10 @@ public class ListViewAdapter extends BaseAdapter {
         return listViewItemList.size() ;
     }
 
+    public void rmAll(){
+        listViewItemList.clear();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
@@ -35,13 +39,11 @@ public class ListViewAdapter extends BaseAdapter {
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
 
         ListViewItem listViewItem = listViewItemList.get(position);
 
         iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getTitle());
-        descTextView.setText(listViewItem.getDesc());
 
         return convertView;
     }
@@ -56,6 +58,10 @@ public class ListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position) ;
     }
 
+    public void rmItem(int position){
+        listViewItemList.remove(position);
+    }
+
     public void addItem(Drawable icon, String title, String desc) {
         ListViewItem item = new ListViewItem();
 
@@ -64,5 +70,11 @@ public class ListViewAdapter extends BaseAdapter {
         item.setDesc(desc);
 
         listViewItemList.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void addItemAt(ListViewItem item, int position){
+        listViewItemList.remove(position);
+        listViewItemList.add(position, item);
     }
 }
