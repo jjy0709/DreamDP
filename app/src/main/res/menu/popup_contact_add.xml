@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/finn_bt"
+        android:title="FINN"
+        android:icon="@drawable/finn_circle"
+        />
+
+    <item
+        android:id="@+id/jake_bt"
+        android:title="JAKE"
+        android:icon="@drawable/jake_circle"
+        />
+
+    <item
+        android:id="@+id/BMO_bt"
+        android:title="BMO"
+        android:icon="@drawable/bmo_circle"
+        />
+
+</menu>

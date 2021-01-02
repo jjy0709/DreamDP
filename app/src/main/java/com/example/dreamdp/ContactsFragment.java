@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -71,11 +72,11 @@ public class ContactsFragment extends Fragment {
 
         AssetManager assetManager = getActivity().getAssets();
         try{
-            Drawable pic = getResources().getDrawable(R.drawable.android);
             FileInputStream fis = new FileInputStream(getContext().getFilesDir() + "/" + filename);
-            InputStream is = assetManager.open("jsons/contacts");
-            InputStreamReader isr = new InputStreamReader(is);
+            //InputStream is = assetManager.open("jsons/contacts");
+            //InputStreamReader isr = new InputStreamReader(is);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+            Drawable pic;
 
             StringBuffer buffer = new StringBuffer();
             String line;
@@ -85,7 +86,12 @@ public class ContactsFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 String name = jsonObject.getString("name");
                 String number = jsonObject.getString("number");
-                adapter.addItem(pic, name, number);
+                int pic_n = jsonObject.getInt("picture");
+                if(pic_n == 0) {pic = getResources().getDrawable(R.drawable.finn_circle);}
+                else if(pic_n == 1){pic = getResources().getDrawable(R.drawable.jake_circle);}
+                else {pic = getResources().getDrawable(R.drawable.bmo_circle);}
+
+                adapter.addItem(pic_n, pic, name, number);
             }
             fis.close();
 
@@ -94,6 +100,47 @@ public class ContactsFragment extends Fragment {
             e.printStackTrace();
         }
 
+        SearchView searchView = v.findViewById(R.id.contact_search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(query == ""){
+                    listView.setAdapter(adapter);
+                }
+                else{
+                    ListViewAdapter adapter_search = new ListViewAdapter();
+                    int num_item = adapter.getCount();
+                    for(int i=0;i<num_item;i++){
+                        ListViewItem item1 = (ListViewItem) adapter.getItem(i);
+                        if(item1.getTitle().contains(query) || item1.getDesc().contains(query)){
+                            adapter_search.addItem(item1.getPic_num(),item1.getIcon(),item1.getTitle(),item1.getDesc());
+                        }
+                    }
+                    listView.setAdapter(adapter_search);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText == ""){
+                    listView.setAdapter(adapter);
+                }
+                else{
+                    ListViewAdapter adapter_search = new ListViewAdapter();
+                    int num_item = adapter.getCount();
+                    for(int i=0;i<num_item;i++){
+                        ListViewItem item1 = (ListViewItem) adapter.getItem(i);
+                        if(item1.getTitle().contains(newText) || item1.getDesc().contains(newText)){
+                            adapter_search.addItem(item1.getPic_num(),item1.getIcon(),item1.getTitle(),item1.getDesc());
+                        }
+                    }
+                    listView.setAdapter(adapter_search);
+                }
+                return true;
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -101,12 +148,13 @@ public class ContactsFragment extends Fragment {
 
                 String titleStr = item.getTitle();
                 String descStr = item.getDesc();
+                int pic_n = item.getPic_num();
                 Drawable iconDrawable = item.getIcon();
-
 
                 Intent i = new Intent(getContext(), ContactActivity.class);
                 i.putExtra("name",titleStr);
                 i.putExtra("number",descStr);
+                i.putExtra("picture",pic_n);
                 startActivity(i);
 
 
@@ -127,9 +175,12 @@ public class ContactsFragment extends Fragment {
                                 ListViewItem list_item_R = (ListViewItem) parent.getItemAtPosition(position);
                                 String name_r = list_item_R.getTitle();
                                 String number_r = list_item_R.getDesc();
+                                int pic_ = list_item_R.getPic_num();
                                 i.putExtra("name", name_r);
                                 i.putExtra("number", number_r);
+                                i.putExtra("picture",pic_);
                                 i.putExtra("position",position);
+
                                 startActivityForResult(i,1);
 
                                 break;
@@ -188,7 +239,12 @@ public class ContactsFragment extends Fragment {
         super.setArguments(args);
         String name = args.getString("name");
         String number = args.getString("number");
-        adapter.addItem(getResources().getDrawable(R.drawable.android),name,number);
+        int n = args.getInt("picture");
+        Drawable pic;
+        if(n == 0){pic = getResources().getDrawable(R.drawable.finn_circle);}
+        else if(n == 1){pic = getResources().getDrawable(R.drawable.jake_circle);}
+        else {pic = getResources().getDrawable(R.drawable.bmo_circle);}
+        adapter.addItem(n,pic,name,number);
 
         try {
             File file = getContext().getFilesDir();
@@ -197,6 +253,7 @@ public class ContactsFragment extends Fragment {
             JSONObject json1 = new JSONObject();
             json1.put("name",name);
             json1.put("number",number);
+            json1.put("picture",n);
             String json = json1.toString();
             writer.write(json + "\n");
             writer.flush();
@@ -222,7 +279,8 @@ public class ContactsFragment extends Fragment {
             super.onActivityResult(requestCode, resultCode, data);
             String name = data.getStringExtra("name");
             String number = data.getStringExtra("number");
-            int position = data.getIntExtra("position", 0);
+            int pic_ = data.getIntExtra("picture", 0);
+            int position = data.getIntExtra("position",0);
             JSONObject json = new JSONObject();
 
             File file = new File(getContext().getFilesDir() + "/" + filename);
@@ -230,6 +288,7 @@ public class ContactsFragment extends Fragment {
             try {
                 json.put("name", name);
                 json.put("number", number);
+                json.put("picture",pic_);
                 String revise_info = json.toString();
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
                 String line;
@@ -258,6 +317,10 @@ public class ContactsFragment extends Fragment {
             ListViewItem item = (ListViewItem) adapter.getItem(position);
             item.setTitle(name);
             item.setDesc(number);
+            item.setPic_num(pic_);
+            if(pic_ == 0){item.setIcon(getResources().getDrawable(R.drawable.finn_circle));}
+            else if(pic_ == 1){item.setIcon(getResources().getDrawable(R.drawable.jake_circle));}
+            else {item.setIcon(getResources().getDrawable(R.drawable.bmo_circle));}
             adapter.notifyDataSetChanged();
             listView.setAdapter(adapter);
         }

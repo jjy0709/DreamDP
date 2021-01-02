@@ -62,9 +62,10 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.remove(position);
     }
 
-    public void addItem(Drawable icon, String title, String desc) {
+    public void addItem(int num, Drawable icon, String title, String desc) {
         ListViewItem item = new ListViewItem();
 
+        item.setPic_num(num);
         item.setIcon(icon);
         item.setTitle(title);
         item.setDesc(desc);

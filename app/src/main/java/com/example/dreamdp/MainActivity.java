@@ -127,9 +127,11 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK) {
             String name = data.getStringExtra("name");
             String number = data.getStringExtra("number");
+            int pic_ = data.getIntExtra("picture",0);
             Bundle bundle = new Bundle();
             bundle.putString("name", name);
             bundle.putString("number", number);
+            bundle.putInt("picture",pic_);
             ArrayList<Fragment> list = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
 
             Fragment f = list.get(0);

@@ -7,7 +7,7 @@
     >
 
     <ImageView
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="130dp"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:id="@+id/contact_image"
@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
         >
         <TextView
             android:id="@+id/contact_name"
@@ -37,12 +38,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
         <ImageButton
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginLeft="100dp"
             android:id="@+id/call_button"
             android:background="@android:color/white"
             android:src="@drawable/call"
@@ -53,7 +54,7 @@
         <ImageButton
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="20dp"
             android:src="@drawable/text"
             android:background="@android:color/white"
