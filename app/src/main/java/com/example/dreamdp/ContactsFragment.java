@@ -245,6 +245,8 @@ public class ContactsFragment extends Fragment {
         else if(n == 1){pic = getResources().getDrawable(R.drawable.jake_circle);}
         else {pic = getResources().getDrawable(R.drawable.bmo_circle);}
         adapter.addItem(n,pic,name,number);
+        adapter.notifyDataSetChanged();
+        listView.setAdapter(adapter);
 
         try {
             File file = getContext().getFilesDir();
