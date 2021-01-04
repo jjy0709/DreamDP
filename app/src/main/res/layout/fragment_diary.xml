@@ -7,6 +7,28 @@
     android:orientation="vertical"
     tools:context=".DiaryFragment">
     <CalendarView
+        android:id="@+id/diary_calendar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/star_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:text="Monthly Stars"
+        />
+
+    <RatingBar
+        android:id="@+id/monthly_average"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:isIndicator="true"
+        />
+
+
 </LinearLayout>

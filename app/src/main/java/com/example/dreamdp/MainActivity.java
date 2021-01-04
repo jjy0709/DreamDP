@@ -1,8 +1,10 @@
 package com.example.dreamdp;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
@@ -41,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     final static int REQUEST_ADD_PERSON = 0;
     final static int REQUEST_TAKE_PHOTO = 1;
+    final static int REQUEST_ADD_DIARY = 2;
+    DBHelper helper;
+    SQLiteDatabase db;
 
     ViewPager viewPager;
 
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        helper = new DBHelper(this,"diary.db", null, 1);
+        db = helper.getWritableDatabase();
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         viewPager = findViewById(R.id.view_pager);
@@ -82,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         Intent i = new Intent(getApplicationContext(), NewDiaryActivity.class);
-                        startActivity(i);
+                        startActivityForResult(i, REQUEST_ADD_DIARY);
                         break;
                 }
 
@@ -107,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 1:
                 menu.clear();
-                menu.add("Settings");
-                menu.add("Delete");
+                menu.add("Delete All");
                 break;
             case 2:
                 break;
@@ -130,14 +136,15 @@ public class MainActivity extends AppCompatActivity {
         else if(id == "Delete All"){
             ArrayList<Fragment> list = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
             Fragment f = list.get(0);
-            System.out.println(f.getClass());
+            Fragment f2 = list.get(1);
             ContactsFragment contactsFragment;
             if(f.getClass() == ContactsFragment.class){
                 contactsFragment = (ContactsFragment) list.get(0);
             }
-            else{
+            else if(f2.getClass() == ContactsFragment.class){
                 contactsFragment = (ContactsFragment) list.get(1);
             }
+            else{contactsFragment = (ContactsFragment) list.get(2);}
             contactsFragment.Delete_all();
             return true;
         }
@@ -168,13 +175,14 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<Fragment> list = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
 
                     Fragment f = list.get(0);
-                    System.out.println(f.getClass());
+                    Fragment f2 = list.get(1);
                     ContactsFragment contactsFragment;
                     if (f.getClass() == ContactsFragment.class) {
                         contactsFragment = (ContactsFragment) list.get(0);
-                    } else {
+                    } else if(f2.getClass() == ContactsFragment.class) {
                         contactsFragment = (ContactsFragment) list.get(1);
                     }
+                    else{contactsFragment = (ContactsFragment) list.get(2);}
 
 
                     contactsFragment.setArguments(bundle);
@@ -214,6 +222,34 @@ public class MainActivity extends AppCompatActivity {
                         file.delete();
                     }
                 }
+                break;
+
+            case REQUEST_ADD_DIARY:
+                if(intent == null){
+                    break;
+                }
+                int date = intent.getIntExtra("date",0);
+                float rating = intent.getFloatExtra("rating",0);
+                String comment = intent.getStringExtra("comment");
+                int weather = intent.getIntExtra("weather",0);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("date",date);
+                contentValues.put("rating",rating);
+                contentValues.put("weather",weather);
+                contentValues.put("content",comment);
+                db.insert("mytable",null,contentValues);
+                ArrayList<Fragment> list = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
+                Fragment f = list.get(0);
+                Fragment f2 = list.get(1);
+                DiaryFragment contactsFragment;
+                if (f.getClass() == DiaryFragment.class) {
+                    contactsFragment = (DiaryFragment) list.get(0);
+                } else if(f2.getClass() == DiaryFragment.class) {
+                    contactsFragment = (DiaryFragment) list.get(1);
+                }
+                else{contactsFragment = (DiaryFragment) list.get(2);}
+
+                contactsFragment.whenDataSetChanged(rating);
                 break;
         }
     }
