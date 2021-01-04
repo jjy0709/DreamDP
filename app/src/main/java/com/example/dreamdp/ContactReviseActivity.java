@@ -1,26 +1,22 @@
 package com.example.dreamdp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
+import android.widget.Toast;
 
-public class Contact_Revise extends Activity {
+public class ContactReviseActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact__revise);
+        setContentView(R.layout.activity_contact_revise);
         Intent i = getIntent();
 
 
@@ -73,6 +69,10 @@ public class Contact_Revise extends Activity {
         button.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
+                if(nameV.getText().length() == 0 || numberV.getText().length() == 0){
+                    Toast.makeText(ContactReviseActivity.this, "모든 영역을 채워주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String revise_name = nameV.getText().toString();
                 String revise_number = numberV.getText().toString();
 

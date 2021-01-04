@@ -5,7 +5,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -14,9 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DreamDP">
-        <activity android:name=".Contact_Revise"></activity>
-        <activity android:name=".Contact_SnackBar" />
-        <activity android:name=".ContactActivity" />
+        <activity android:name=".NewDiaryActivity"></activity>
+        <activity android:name=".ContactReviseActivity" />
+        <activity android:name=".ContactAddActivity" />
+        <activity android:name=".ContactViewActivity" />
         <activity android:name=".FullImageActivity" />
         <activity
             android:name=".MainActivity"
@@ -28,11 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.dreamdp.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

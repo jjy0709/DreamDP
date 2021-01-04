@@ -6,7 +6,7 @@
     android:layout_width="300dp"
     android:layout_height="300dp"
     android:layout_gravity="center"
-    tools:context=".Contact_SnackBar">
+    tools:context=".ContactAddActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

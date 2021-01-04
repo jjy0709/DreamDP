@@ -1,28 +1,19 @@
 package com.example.dreamdp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileUtils;
-import android.renderscript.ScriptGroup;
-import android.util.JsonWriter;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import org.json.JSONArray;
@@ -37,12 +28,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.Buffer;
-import java.util.Collection;
 
 import static android.app.Activity.RESULT_FIRST_USER;
 
@@ -151,7 +138,7 @@ public class ContactsFragment extends Fragment {
                 int pic_n = item.getPic_num();
                 Drawable iconDrawable = item.getIcon();
 
-                Intent i = new Intent(getContext(), ContactActivity.class);
+                Intent i = new Intent(getContext(), ContactViewActivity.class);
                 i.putExtra("name",titleStr);
                 i.putExtra("number",descStr);
                 i.putExtra("picture",pic_n);
@@ -171,7 +158,7 @@ public class ContactsFragment extends Fragment {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.Revise_contact:
-                                Intent i = new Intent(getContext(),Contact_Revise.class);
+                                Intent i = new Intent(getContext(), ContactReviseActivity.class);
                                 ListViewItem list_item_R = (ListViewItem) parent.getItemAtPosition(position);
                                 String name_r = list_item_R.getTitle();
                                 String number_r = list_item_R.getDesc();

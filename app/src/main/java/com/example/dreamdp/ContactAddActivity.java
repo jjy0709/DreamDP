@@ -1,37 +1,21 @@
 package com.example.dreamdp;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.JsonWriter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.content.SharedPreferences;
 
-import android.os.Bundle;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
-import static com.example.dreamdp.R.id.contacts_list;
-
-public class Contact_SnackBar extends Activity {
+public class ContactAddActivity extends Activity {
 
     EditText name;
     EditText number;
@@ -41,7 +25,7 @@ public class Contact_SnackBar extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact__snack_bar);
+        setContentView(R.layout.activity_contact_add);
 
         name = findViewById(R.id.name);
         number = findViewById(R.id.number);
@@ -81,6 +65,11 @@ public class Contact_SnackBar extends Activity {
         @Override
         public void onClick(View v) {
             try {
+                if(name.getText().length() == 0 || number.getText().length() == 0){
+                    Toast.makeText(ContactAddActivity.this, "모든 영역을 채워주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 JSONObject jo = new JSONObject();
                 jo.put("name", name.getText().toString());
                 jo.put("number", number.getText().toString());
@@ -94,8 +83,6 @@ public class Contact_SnackBar extends Activity {
                 i1.putExtra("picture",pic_);
 
                 setResult(Activity.RESULT_OK, i1);
-
-
             }
             catch (JSONException e){
                 e.printStackTrace();
