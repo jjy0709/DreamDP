@@ -1,19 +1,26 @@
 package com.example.dreamdp;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class GalleryFragment extends Fragment {
 
     public GridView gridView;
     //public ImageAdapter adapter;
+
+    public RecyclerView recyclerGrid;
+    private ArrayList<Bitmap> mArrayList;
+    private ImageAdapter mAdapter;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -23,42 +30,31 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Implementation with RecyclerView
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);
-        gridView = (GridView) v.findViewById(R.id.gallery);
-        ImageAdapter adapter = new ImageAdapter(getContext());
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getContext(), FullImageActivity.class);
-                i.putExtra("id", position);
-                startActivity(i);
-            }
-        });
+        recyclerGrid = (RecyclerView) v.findViewById(R.id.gallery);
+        int colNum = 3;
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(getContext(), colNum);
+        recyclerGrid.setLayoutManager(mGridLayoutManager);
+
+        mArrayList = new ArrayList<>();
+
+        mAdapter = new ImageAdapter(getContext());
+        recyclerGrid.setAdapter(mAdapter);
+
+//        recyclerGrid.addOnItemTouchListener(new RecyclerView.OnItemTouchListener(this, recyclerGrid, new) {
+//            @Override
+//            public void onClick(View view, int position) {
+//                Bitmap image = mArrayList.get(position);
+//            }
+//        }));
+
+        // end of implementation
+
         return v;
     }
 
-    public int isContactFrag(){
-        return 0;
+    public int isGalleryFrag(){
+        return 1;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        System.out.println("Gallery Fragment Resumed");
-        ImageAdapter adapter = new ImageAdapter(getContext());
-        //adapter.notifyDataSetChanged();
-        gridView.setAdapter(adapter);
-    }
-//        adapter = new ImageAdapter(getContext());
-//        gridView.setAdapter(adapter);
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent(getContext(), FullImageActivity.class);
-//                i.putExtra("id", position);
-//                startActivity(i);
-//            }
-//        });
-//    }
 }

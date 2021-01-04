@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="sky_500">#030140</color>
+    <color name="sky_700">#FF010326</color>
+    <color name="sky_200">#FF5C5D73</color>
+    <color name="moon_200">#FFF2DBAE</color>
+    <color name="moon_700">#FFA68572</color>
 </resources>

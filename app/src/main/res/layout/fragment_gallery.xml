@@ -4,16 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gallery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:columnWidth="180dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:minHeight="180dp"
-        android:gravity="center"
-         />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

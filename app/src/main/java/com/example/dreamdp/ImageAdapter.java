@@ -1,36 +1,73 @@
 package com.example.dreamdp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.media.ExifInterface;
 import android.os.Environment;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.WindowManager;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+
     private Context mContext;
-    public Integer[] mThumbIds = {
+    private ArrayList<Bitmap> mList;
+    private int realWidth;
 
-    };
-    public ArrayList<Bitmap> mImgBitmaps = new ArrayList<>();
-    private int imgCount = 0;
+    public class ImageViewHolder extends RecyclerView.ViewHolder {
+        protected ImageView img;
 
+        public ImageViewHolder(View view) {
+            super(view);
+            this.img = (ImageView) view.findViewById(R.id.image_thumbnail);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Intent i = new Intent(mContext, FullImageActivity.class);
+                        i.putExtra("id", pos);
+//                        Bitmap bitmap = mList.get(pos);
+                        mContext.startActivity(i);
+                    }
+                }
+            });
+        }
+    }
+
+//    public CustomAdapter(ArrayList<Bitmap> list) {
     public ImageAdapter(Context c) {
+//        this.mList = list;
         mContext = c;
-        File mFilesDir = c.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        // get realWidth of device's display in pixel
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        realWidth = size.x;
+        System.out.println(realWidth);
+        mList = new ArrayList<Bitmap>();
+        File mFilesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File mFiles[] = mFilesDir.listFiles();
         Bitmap thumbnail;
         for (File file : mFiles) {
             thumbnail = createThumbnail(file);
-            mImgBitmaps.add(thumbnail);
+            mList.add(thumbnail);
         }
     }
 
@@ -44,7 +81,7 @@ public class ImageAdapter extends BaseAdapter {
             } else {
                 bitmap = Bitmap.createBitmap(bitmap, (width - height) / 2, 0, height, height);
             }
-            bitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, realWidth/3, realWidth/3, true);
         }
         return bitmap;
     }
@@ -81,29 +118,23 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        return mImgBitmaps.size();
-        //return mThumbIds.length;
+    public ImageViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_gallery, viewGroup, false);
+
+        ImageViewHolder viewHolder = new ImageViewHolder(view);
+
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return mImgBitmaps.get(position);
-        //return mThumbIds[position];
+    public void onBindViewHolder(@NonNull ImageViewHolder viewHolder, int position) {
+        viewHolder.img.setImageBitmap(mList.get(position));
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
+    public int getItemCount() {
+        return (mList != null ? mList.size() : 0);
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView = new ImageView(mContext);
-        //imageView.setImageResource(mThumbIds[position]);
-        imageView.setImageBitmap(mImgBitmaps.get(position));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(300,300));
-        return imageView;
-    }
 }
