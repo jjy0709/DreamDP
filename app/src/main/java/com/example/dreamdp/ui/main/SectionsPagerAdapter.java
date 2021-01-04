@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.dreamdp.ContactsFragment;
+import com.example.dreamdp.DiaryFragment;
 import com.example.dreamdp.GalleryFragment;
 import com.example.dreamdp.R;
 
@@ -39,7 +40,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 fragment = new GalleryFragment();
                 break;
             case 2:
-                fragment = PlaceholderFragment.newInstance(position + 1);
+//                fragment = PlaceholderFragment.newInstance(position + 1);
+                fragment = new DiaryFragment();
                 break;
         }
         return fragment;

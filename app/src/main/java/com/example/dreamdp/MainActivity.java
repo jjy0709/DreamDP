@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 menu.clear();
-                menu.add("Settings");
                 menu.add("Delete All");
                 break;
             case 1:

@@ -27,13 +27,7 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     private Context mContext = null;
     public Integer[] mThumbIds = {
-            R.drawable.android, R.drawable.galbae,
-            R.drawable.gazua, R.drawable.google,
-            R.drawable.hyu, R.drawable.kaist,
-            R.drawable.notimetodie, R.drawable.top_gun_maverick,
-            R.drawable.bird, R.drawable.cat,
-            R.drawable.cocomong, R.drawable.pororo,
-            R.drawable.coke1, R.drawable.pepsi
+
     };
     public ArrayList<Bitmap> mImgBitmaps = new ArrayList<>();
     public ArrayList<File> mImageFiles = new ArrayList<>();

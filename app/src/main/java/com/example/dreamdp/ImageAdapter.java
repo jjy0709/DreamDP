@@ -18,13 +18,7 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     public Integer[] mThumbIds = {
-            R.drawable.android, R.drawable.galbae,
-            R.drawable.gazua, R.drawable.google,
-            R.drawable.hyu, R.drawable.kaist,
-            R.drawable.notimetodie, R.drawable.top_gun_maverick,
-            R.drawable.bird, R.drawable.cat,
-            R.drawable.cocomong, R.drawable.pororo,
-            R.drawable.coke1, R.drawable.pepsi
+
     };
     public ArrayList<Bitmap> mImgBitmaps = new ArrayList<>();
     private int imgCount = 0;
