@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dreamdp.ui.main.SectionsPagerAdapter;
 
@@ -101,15 +102,19 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case 1:
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
-                                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                                ActivityCompat.requestPermissions(MainActivity.this,
-                                        new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                        TAKE_PICTURE);
+                        try {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+                                        checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                                    ActivityCompat.requestPermissions(MainActivity.this,
+                                            new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            TAKE_PICTURE);
+                                }
                             }
+                            dispatchTakePictureIntent();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        dispatchTakePictureIntent();
                         break;
                     case 2:
                         Intent i = new Intent(getApplicationContext(), NewDiaryActivity.class);
@@ -211,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Toast.makeText(this, "카메라/내부 저장소 접근 권한을 허용해 주세요.", Toast.LENGTH_SHORT).show();
     }
 
 
