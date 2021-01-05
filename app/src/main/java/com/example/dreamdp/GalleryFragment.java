@@ -54,6 +54,12 @@ public class GalleryFragment extends Fragment {
         return v;
     }
 
+    public void updateGrid() {
+//        mAdapter.notifyDataSetChanged();
+        mAdapter = new ImageAdapter(getContext());
+        recyclerGrid.setAdapter(mAdapter);
+    }
+
     public int isGalleryFrag(){
         return 1;
     }

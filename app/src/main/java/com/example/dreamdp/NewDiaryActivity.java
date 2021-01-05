@@ -36,12 +36,12 @@ public class NewDiaryActivity extends AppCompatActivity {
 
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Button button1 = findViewById(R.id.date_button);
+        Button dateButton = findViewById(R.id.date_button);
         long now = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
         Date date = new Date(now);
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy년 MM월 dd일");
-        button1.setText(format1.format(date));
+        dateButton.setText(format1.format(date));
         Button saveButton = findViewById(R.id.save_diary);
         RatingBar ratingBar = findViewById(R.id.daily_rating);
         EditText editText = findViewById(R.id.daily_comment);
@@ -49,13 +49,13 @@ public class NewDiaryActivity extends AppCompatActivity {
         final int[] date2num = new int[1];
         date2num[0] = calendar.get(Calendar.YEAR) * 10000 + (calendar.get(Calendar.MONTH)+1) * 100 + calendar.get(Calendar.DATE);
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        dateButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                DatePickerDialog dialog = new DatePickerDialog(NewDiaryActivity.this, new DatePickerDialog.OnDateSetListener() {
                    @Override
                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                       button1.setText(year + "년" + (month + 1) + "월" + dayOfMonth + "일");
+                       dateButton.setText(year + "년" + (month + 1) + "월" + dayOfMonth + "일");
                        date2num[0] = year*10000 + (month+1) * 100 + dayOfMonth;
                    }
                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));

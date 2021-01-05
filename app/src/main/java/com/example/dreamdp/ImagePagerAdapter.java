@@ -8,6 +8,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -86,13 +87,13 @@ public class ImagePagerAdapter extends PagerAdapter {
             int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
             switch (orientation) {
                 case ExifInterface.ORIENTATION_ROTATE_90:
-                    matrix.postRotate(90);
+                    matrix.setRotate(90);
                     break;
                 case ExifInterface.ORIENTATION_ROTATE_180:
-                    matrix.postRotate(180);
+                    matrix.setRotate(180);
                     break;
                 case ExifInterface.ORIENTATION_ROTATE_270:
-                    matrix.postRotate(270);
+                    matrix.setRotate(270);
                     break;
                 case ExifInterface.ORIENTATION_NORMAL:
                 default:
@@ -118,28 +119,60 @@ public class ImagePagerAdapter extends PagerAdapter {
 //            imageView.setImageBitmap(getStraightImage(mImageFiles.get(position).getAbsolutePath()));
 //            imageView.setScaleType(ImageView.ScaleType.MATRIX);
 //            imageView.setImageMatrix(getStraightMatrix(mImageFiles.get(position).getAbsolutePath()));
+            imageView.setImageMatrix(getStraightMatrix(mImagePaths.get(position)));
 
-            try {
-                ExifInterface ei = new ExifInterface(mImagePaths.get(position));
-                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-                switch (orientation) {
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        imageView.setRotation(90);
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        imageView.setRotation(180);
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        imageView.setRotation(270);
-                        break;
-                    case ExifInterface.ORIENTATION_NORMAL:
-                    default:
-                        break;
+            Bitmap bitmap = BitmapFactory.decodeFile(mImagePaths.get(position));
+//            Matrix matrix = getStraightMatrix(mImageFiles.get(position).getAbsolutePath());
+            Matrix matrix = getStraightMatrix(mImagePaths.get(position));
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//            bitmap.recycle();
+            imageView.setImageBitmap(bmRotated);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imageView.setImageBitmap(BitmapFactory.decodeFile(mImagePaths.get(position)));
+            });
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view1, MotionEvent event) {
+                    if (event.equals(MotionEvent.ACTION_MOVE)) {
+                        System.out.println("=========== Dragged ===========");
+                    }
+                    return true;
+                }
+            });
+
+//            try {
+//                ExifInterface ei = new ExifInterface(mImagePaths.get(position));
+//                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+//                int tmp;
+//                ViewGroup.LayoutParams params;
+//                switch (orientation) {
+//                    case ExifInterface.ORIENTATION_ROTATE_90:
+//                        imageView.setRotation(90);
+//                        params = imageView.getLayoutParams();
+//                        tmp = params.width;
+//                        params.width = params.height;
+//                        params.height = tmp;
+//                        imageView.setLayoutParams(params);
+//                        break;
+//                    case ExifInterface.ORIENTATION_ROTATE_180:
+//                        imageView.setRotation(180);
+//                        break;
+//                    case ExifInterface.ORIENTATION_ROTATE_270:
+//                        imageView.setRotation(270);
+//                    case ExifInterface.ORIENTATION_NORMAL:
+//                    default:
+//                        break;
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            imageView.setImageBitmap(BitmapFactory.decodeFile(mImagePaths.get(position)));
         }
 
         container.addView(view);

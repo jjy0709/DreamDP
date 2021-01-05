@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context=".DiaryFragment">
 
-
             <Button
                 android:id="@+id/date_button"
                 android:layout_width="match_parent"
@@ -59,12 +58,13 @@
             <EditText
                 android:id="@+id/daily_comment"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:gravity="top"
                 android:background="@drawable/border"
                 android:padding="10dp"
+                android:layout_weight="1"
                 />
 
             <RatingBar
@@ -80,7 +80,7 @@
                 android:id="@+id/save_diary"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="20dp"
                 android:text="Save"/>
 </LinearLayout>

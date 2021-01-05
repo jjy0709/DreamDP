@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:navigationBarColor">@color/sky_700</item>
     </style>
     <style name="Theme.DreamDP.NoActionBar">
         <item name="windowActionBar">false</item>

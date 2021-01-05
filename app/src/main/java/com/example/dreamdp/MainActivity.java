@@ -223,34 +223,38 @@ public class MainActivity extends AppCompatActivity {
                         file.delete();
                     }
                 }
+                ArrayList<Fragment> list2 = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
+                GalleryFragment galleryFragment = (GalleryFragment) list2.get(1);
+                galleryFragment.updateGrid();
+
                 break;
 
             case REQUEST_ADD_DIARY:
-                if(intent == null){
-                    break;
-                }
-                int date = intent.getIntExtra("date",0);
-                float rating = intent.getFloatExtra("rating",0);
-                String comment = intent.getStringExtra("comment");
-                int weather = intent.getIntExtra("weather",0);
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("date",date);
-                contentValues.put("rating",rating);
-                contentValues.put("weather",weather);
-                contentValues.put("content",comment);
-                db.insert("mytable",null,contentValues);
-                ArrayList<Fragment> list = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
-                Fragment f = list.get(0);
-                Fragment f2 = list.get(1);
-                DiaryFragment contactsFragment;
-                if (f.getClass() == DiaryFragment.class) {
-                    contactsFragment = (DiaryFragment) list.get(0);
-                } else if(f2.getClass() == DiaryFragment.class) {
-                    contactsFragment = (DiaryFragment) list.get(1);
-                }
-                else{contactsFragment = (DiaryFragment) list.get(2);}
+                if (resultCode == RESULT_OK && intent != null) {
+                    int date = intent.getIntExtra("date", 0);
+                    float rating = intent.getFloatExtra("rating", 0);
+                    String comment = intent.getStringExtra("comment");
+                    int weather = intent.getIntExtra("weather", 0);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("date", date);
+                    contentValues.put("rating", rating);
+                    contentValues.put("weather", weather);
+                    contentValues.put("content", comment);
+                    db.insert("mytable", null, contentValues);
+                    ArrayList<Fragment> list = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
+                    Fragment f = list.get(0);
+                    Fragment f2 = list.get(1);
+                    DiaryFragment diaryFragment;
+                    if (f.getClass() == DiaryFragment.class) {
+                        diaryFragment = (DiaryFragment) list.get(0);
+                    } else if (f2.getClass() == DiaryFragment.class) {
+                        diaryFragment = (DiaryFragment) list.get(1);
+                    } else {
+                        diaryFragment = (DiaryFragment) list.get(2);
+                    }
 
-                contactsFragment.whenDataSetChanged(rating);
+                    diaryFragment.whenDataSetChanged(rating);
+                }
                 break;
         }
     }
