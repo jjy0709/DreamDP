@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.github.chrisbanes.photoview.PhotoView;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,7 +116,7 @@ public class ImagePagerAdapter extends PagerAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.image_page, container, false);
 
-            ImageView imageView = (ImageView) view.findViewById(R.id.full_image_view);
+            PhotoView imageView = (PhotoView) view.findViewById(R.id.full_image_view);
 //            imageView.setImageBitmap(mImgBitmaps.get(position));
 //            imageView.setImageBitmap(getStraightImage(mImageFiles.get(position).getAbsolutePath()));
 //            imageView.setScaleType(ImageView.ScaleType.MATRIX);
@@ -136,15 +138,15 @@ public class ImagePagerAdapter extends PagerAdapter {
                 }
             });
 
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view1, MotionEvent event) {
-                    if (event.equals(MotionEvent.ACTION_MOVE)) {
-                        System.out.println("=========== Dragged ===========");
-                    }
-                    return true;
-                }
-            });
+
+
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    v.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN |
+//                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+//                }
+//            });
 
 //            try {
 //                ExifInterface ei = new ExifInterface(mImagePaths.get(position));
