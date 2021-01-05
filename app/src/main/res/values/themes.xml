@@ -18,7 +18,7 @@
         <item name="windowNoTitle">true</item>
     </style>
     <style name="Theme.DreamDP.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
-<!--        <item name="android:fontFamily">@font/rocksalt</item>-->
+        <item name="android:fontFamily">@font/moonbold</item>
     </style>
     <style name="Theme.DreamDP.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -11,14 +11,22 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class ContactReviseActivity extends Activity {
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ContactReviseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_revise);
-        Intent i = getIntent();
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Edit contact");
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent i = getIntent();
 
         String name = i.getStringExtra("name");
         String number = i.getStringExtra("number");

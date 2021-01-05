@@ -1,5 +1,6 @@
 package com.example.dreamdp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -29,6 +30,11 @@ public class NewDiaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_diary);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("New diary");
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Button button1 = findViewById(R.id.date_button);
         long now = System.currentTimeMillis();
