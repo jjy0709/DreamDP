@@ -17,9 +17,10 @@
         android:id="@+id/star_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:gravity="center"
-        android:text="Monthly Stars"
+        android:text="Monthly Rating"
+        android:fontFamily="@font/moonbold"
         />
 
     <RatingBar
@@ -28,6 +29,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:isIndicator="true"
+        />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:id="@+id/content_view"
         />
 
 

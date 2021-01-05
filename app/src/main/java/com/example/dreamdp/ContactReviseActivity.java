@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -44,32 +47,31 @@ public class ContactReviseActivity extends AppCompatActivity {
         nameV.setText(name);
         numberV.setText(number);
 
-        imageView.setOnClickListener(new ImageView.OnClickListener(){
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_pic_revise);
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.picture, android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(getApplicationContext(), v);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_contact_add, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-                            case R.id.finn_bt:
-                                imageView.setImageResource(R.drawable.finn_circle);
-                                pic_[0] = 0;
-                                break;
-                            case R.id.jake_bt:
-                                imageView.setImageResource(R.drawable.jake_circle);
-                                pic_[0] = 1;
-                                break;
-                            case R.id.BMO_bt:
-                                imageView.setImageResource(R.drawable.bmo_circle);
-                                pic_[0] = 2;
-                                break;
-                        }
-                        return true;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                switch (position){
+                    case 0:
+                        imageView.setImageResource(R.drawable.finn_circle);
+                        pic_[0] = 0;
+                        break;
+                    case 1:
+                        imageView.setImageResource(R.drawable.jake_circle);
+                        pic_[0] = 1;
+                        break;
+                    case 2:
+                        imageView.setImageResource(R.drawable.bmo_circle);
+                        pic_[0] = 2;
+                        break;
                     }
-                });
-                popupMenu.show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 

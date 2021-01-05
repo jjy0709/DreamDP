@@ -2,8 +2,10 @@ package com.example.dreamdp;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -15,6 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -26,6 +29,8 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.example.dreamdp.ui.main.SectionsPagerAdapter;
 
@@ -66,6 +71,24 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(viewPager.getWindowToken(),0);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         Intent i = new Intent(getApplicationContext(), NewDiaryActivity.class);
+                        i.putExtra("request_code",REQUEST_ADD_DIARY);
+                        Cursor c = db.rawQuery("SELECT * from mytable order by date asc",null);
                         startActivityForResult(i, REQUEST_ADD_DIARY);
                         break;
                 }
@@ -115,9 +140,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 1:
                 menu.clear();
-                menu.add("Delete All");
+                menu.add("Whatever");
                 break;
             case 2:
+                menu.clear();
+                menu.add("Delete");
                 break;
         }
         return true;
@@ -148,6 +175,34 @@ public class MainActivity extends AppCompatActivity {
             else{contactsFragment = (ContactsFragment) list.get(2);}
             contactsFragment.Delete_all();
             return true;
+        }
+        else if(id == "Delete"){
+            TextView textView = findViewById(R.id.content_view);
+            String content = textView.getText().toString();
+            Cursor cursor = db.rawQuery("SELECT * from mytable order by date asc",null);
+            while(cursor.moveToNext()){
+                String cont = cursor.getString(3);
+                if(cont.equals(content)){
+                    int val = cursor.getInt(0);
+                    db.execSQL("DELETE from mytable where _id = " + val + ";");
+
+                    ArrayList<Fragment> list = (ArrayList<Fragment>) getSupportFragmentManager().getFragments();
+                    Fragment f = list.get(0);
+                    Fragment f2 = list.get(1);
+                    DiaryFragment diaryFragment;
+                    if (f.getClass() == DiaryFragment.class) {
+                        diaryFragment = (DiaryFragment) list.get(0);
+                    } else if (f2.getClass() == DiaryFragment.class) {
+                        diaryFragment = (DiaryFragment) list.get(1);
+                    } else {
+                        diaryFragment = (DiaryFragment) list.get(2);
+                    }
+                    float rating = cursor.getFloat(2);
+                    diaryFragment.whenDataSetChanged(rating,2);
+                    textView.setText("");
+                    break;
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -253,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                         diaryFragment = (DiaryFragment) list.get(2);
                     }
 
-                    diaryFragment.whenDataSetChanged(rating);
+                    diaryFragment.whenDataSetChanged(rating,1);
                 }
                 break;
         }
